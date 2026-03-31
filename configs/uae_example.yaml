@@ -1,0 +1,168 @@
+# UAE Arabic (Emirati/Gulf-leaning) discovery config.
+# Provide API keys via env var: YOUTUBE_API_KEYS="key1,key2,..."
+
+api_keys_env: YOUTUBE_API_KEYS
+
+discovery:
+  # channel_first | video_first | hybrid
+  mode: video_first
+  region_code: AE
+  relevance_language: ar
+  max_results_per_query: 50
+  max_pages_per_query: 2
+
+  # Video-first discovery queries (Arabic + common Latin spellings)
+  include_queries:
+    - "بودكاست إماراتي"
+    - "بودكاست اماراتي"
+    - "لهجة إماراتية"
+    - "لهجة اماراتية"
+    - "دبي بودكاست"
+    - "أبوظبي بودكاست"
+    - "قصص من الإمارات"
+    - "ثقافة إماراتية"
+    - "محاضرة دبي"
+    - "محاضرة أبوظبي"
+    - "شرح باللهجة الخليجية"
+    - "Emirati podcast"
+    - "UAE podcast Arabic"
+    - "Dubai talk"
+    - "Abu Dhabi lecture"
+
+  # Optional: channel-first seeds (good to add known UAE channels here)
+  seed_channel_ids: []
+
+filters:
+  min_duration_seconds: 600
+  max_duration_seconds: 7200
+  drop_if_live: true
+  drop_shorts: true
+
+captions:
+  required: true
+  prefer_manual: true
+  prefer_languages: ["ar", "ar-AE", "ar-SA", "ar-KW", "ar-QA", "ar-BH", "ar-OM"]
+
+scoring:
+  # UAE relevance signals (not perfect; used for ranking only).
+  uae_keywords_ar:
+    - "الإمارات"
+    - "الامارات"
+    - "إماراتي"
+    - "اماراتي"
+    - "دبي"
+    - "أبوظبي"
+    - "ابوظبي"
+    - "الشارقة"
+    - "العين"
+    - "عجمان"
+    - "رأس الخيمة"
+    - "راس الخيمة"
+    - "الفجيرة"
+    - "خليجي"
+    - "خليجية"
+    - "لهجة إماراتية"
+    - "لهجة اماراتية"
+    - "مجلس"
+    - "تراث إماراتي"
+    - "تراث اماراتي"
+    - "جامعات الإمارات"
+  uae_keywords_latn:
+    - "UAE"
+    - "Emirati"
+    - "Dubai"
+    - "Abu Dhabi"
+    - "Sharjah"
+    - "Ajman"
+    - "Ras Al Khaimah"
+    - "Fujairah"
+    - "Al Ain"
+    - "Gulf Arabic"
+    - "Khaleeji"
+
+  # Single-speaker likelihood (metadata-only).
+  # Positive = lecture/شرح/محاضرة/مقطع صوتي تعليمي... Negative = interview/panel/multi-speaker.
+  single_speaker_positive:
+    - "محاضرة"
+    - "شرح"
+    - "درس"
+    - "دروس"
+    - "محاضرات"
+    - "كورس"
+    - "ندوة"
+    - "كلمة"
+    - "خطاب"
+    - "حديث"
+    - "talk"
+    - "lecture"
+    - "explain"
+    - "شرح مبسط"
+    - "شرح بالتفصيل"
+  single_speaker_negative:
+    - "بودكاست"
+    - "بودكاست مع"
+    - "لقاء"
+    - "مقابلة"
+    - "حوار"
+    - "مناظرة"
+    - "نقاش"
+    - "حلقة"
+    - "panel"
+    - "interview"
+    - "with"
+    - "vs"
+    - "&"
+
+  banned_keywords:
+    - "موسيقى"
+    - "أغنية"
+    - "اغنية"
+    - "كليب"
+    - "ريمكس"
+    - "حفلة"
+    - "concert"
+    - "music"
+    - "remix"
+
+  weight_single_speaker: 0.45
+  weight_uae_relevance: 0.45
+  weight_caption_quality: 0.10
+
+validation:
+  enabled: false
+  max_videos_to_validate: 200
+  segment_seconds: 45
+  offsets_seconds: [30, 300, 900]
+  min_audio_purity_score: 60.0
+  whisper_language_check: false
+  whisper_model: tiny
+
+runtime:
+  concurrency: 40
+  requests_per_second: 8.0
+  cache_db_path: cache/yt_uae_cache.sqlite
+  output_path: outputs/uae_candidates_with_urls_ready.jsonl
+  output_format: jsonl
+  log_level: INFO
+  # Set to false if your proxies don't use SSL certificates
+  ssl_verify: false
+  # Request timeout in seconds (default: 60, increase only if needed for very slow proxies)
+  request_timeout_seconds: 60
+  # Proxy list (rotated automatically). Format: http://username:password@host:port
+  proxy_list:
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.215.38:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.100.92:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.94.109:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.212.129:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.190.201:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.183.88:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.187.146:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.188.145:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.216.66:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.28.113.78:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.28.120.50:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.194.65:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.204.44:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.208.222:8080"
+    - "http://p_sadcteam:jqH5*e1Qu++@172.18.10.128:8080"
+
