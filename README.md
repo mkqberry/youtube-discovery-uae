@@ -1,4 +1,4 @@
-# Youtube Discovery Uae
+# Arabic Video Discovery and Filtering Pipeline
 
 This repository contains a sanitized Python project prepared for public open-source release.
 
