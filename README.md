@@ -1,31 +1,50 @@
-# Arabic Video Discovery and Filtering Pipeline
+# Arabic Video Discovery
 
-This repository contains a sanitized Python project prepared for public open-source release.
+Crawl and discover Arabic-language YouTube content. Localized version of video discovery with Arabic keyword support and UAE-specific content filtering.
 
 ## Features
 
-- Modular source code under `src/`
-- Runnable utilities under `scripts/`
-- Config templates under `configs/`
-- Examples and tests directories for extensibility
+- Arabic keyword search and channel discovery
+- Geographic/language filtering
+- Metadata extraction in Arabic context
+- Content classification for Gulf region
+- Ranking by engagement and language quality
+- Subtitle language detection
 
 ## Setup
 
-1. Create a virtual environment.
-2. Install dependencies:
-   - `pip install -r requirements.txt`
-3. Copy `.env.example` to `.env` and fill values.
+```bash
+pip install -r requirements.txt
+cp .env.example .env
+```
 
 ## Usage
 
-Run:
+Discover Arabic channels:
 
-`python scripts/run_pipeline.py`
+```bash
+python scripts/main.py \
+  --search-query "تعليم البرمجة" \
+  --region AE \
+  --language ar \
+  --output arabian_channels.jsonl
+```
 
-## Folder Structure
+With filtering:
 
-- `src/` core logic
-- `scripts/` runnable scripts
-- `configs/` configuration files
-- `examples/` usage examples
-- `tests/` tests
+```bash
+python scripts/main.py \
+  --keywords ./configs/arabic_keywords.txt \
+  --region-filter "AE,SA,KW" \
+  --min-subscribers 10000 \
+  --output channels.jsonl
+```
+
+## Configuration
+
+Edit `configs/region_config.yaml` for regional settings:
+
+- Geographic preferences
+- Dialect filtering
+- Content categories
+- Language variants
